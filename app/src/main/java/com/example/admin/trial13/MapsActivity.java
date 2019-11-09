@@ -49,8 +49,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationManager mLocationManager;
     private LocationRequest mLocationRequest;
     private com.google.android.gms.location.LocationListener listener;
-    private long UPDATE_INTERVAL = 2000;
-    private long FASTEST_INTERVAL = 5000;
+    private long UPDATE_INTERVAL = 200;
+    private long FASTEST_INTERVAL = 500;
     private LocationManager locationManager;
     private LatLng latLng;
     private boolean isPermission;

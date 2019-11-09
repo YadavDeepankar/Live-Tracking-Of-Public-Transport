@@ -34,7 +34,7 @@
         android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:hint="username/emailid"
         android:id="@+id/xmlremail"
         android:inputType="textEmailAddress"

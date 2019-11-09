@@ -1,13 +1,22 @@
 package com.example.admin.trial13;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,6 +37,11 @@ import java.util.Locale;
 public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Location mLocation;
+
+    private GoogleApiClient mGoogleApiClient;
+    private LocationManager mLocationManager;
+    private LocationRequest mLocationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,42 +98,6 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
-    }
-
-
-    private String getCOmpleteAddress(double Latitude,double Longtitude){
-
-        String address = "";
-
-        Geocoder geocoder = new Geocoder(RetrieveMapActivity.this,Locale.getDefault());
-
-        try{
-
-            List<Address> addresses = geocoder.getFromLocation(Latitude,Longtitude,1);
-
-            if(address!=null){
-
-                Address returnAddress = addresses.get(0);
-                StringBuilder stringBuilderReturnAddress =  new StringBuilder("");
-
-                for(int i=0; i<=returnAddress.getMaxAddressLineIndex();i++){
-                    stringBuilderReturnAddress.append(returnAddress.getAddressLine(i)).append("\n");
-                }
-
-                address = stringBuilderReturnAddress.toString();
-
-            }
-            else{
-                Toast.makeText(this, "Address not found", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-        catch (Exception e){
-            Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-        }
-
-
-        return address;
     }
 
 }

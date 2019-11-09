@@ -32,7 +32,7 @@ public class signup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        getSupportActionBar().setTitle("User signup");
+       // getSupportActionBar().setTitle("User signup");
 
         jremail=findViewById(R.id.xmlremail);
         jrname=findViewById(R.id.xmlrname);
