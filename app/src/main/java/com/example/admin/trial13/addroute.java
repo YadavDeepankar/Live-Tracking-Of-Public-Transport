@@ -27,7 +27,7 @@ public class addroute extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addroute);
         spin1=findViewById(R.id.xmlspin1);
-        databaseReference= FirebaseDatabase.getInstance().getReference("stopnames");
+        databaseReference= FirebaseDatabase.getInstance().getReference("stops");
         spindata=new ArrayList<String>();
         adapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item,spindata);

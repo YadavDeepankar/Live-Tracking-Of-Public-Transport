@@ -27,7 +27,7 @@ public class addStops extends AppCompatActivity {
         laystoplat = (EditText) findViewById(R.id.stoplat);
         laystoplng = (EditText) findViewById(R.id.stoplng);
 
-        databaseReference= FirebaseDatabase.getInstance().getReference("stopnames");
+        databaseReference= FirebaseDatabase.getInstance().getReference("stops");
     }
     public void addtofirebase(View v) {
         stname=laystopname.getText().toString().trim();
