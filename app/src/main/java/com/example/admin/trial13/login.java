@@ -77,12 +77,11 @@ public class login extends AppCompatActivity {
                                 }
                             }
                         });
+
             }
         });
     }
-
-
-    public void gotoreg(View view) {
-        startActivity(new Intent(this,signup.class));
+    public void forgotpwd(View v) {
+        startActivity(new Intent(this,ForgotPasswordActivity.class));
     }
 }

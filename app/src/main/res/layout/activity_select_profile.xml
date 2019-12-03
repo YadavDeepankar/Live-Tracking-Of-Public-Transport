@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SelectProfileActivity">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="250px"
+            android:paddingRight="200px"
+            android:paddingLeft="200px"
+            android:paddingBottom="100px">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="437dp"
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_driver"
+                android:gravity="center"
+
+
+                android:onClick="driver"
+                android:paddingTop="50px"
+                android:paddingBottom="50px"
+                android:text="D R I V E R"
+                android:textColor="#000" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="437dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_user"
+
+                android:gravity="center"
+                android:onClick="user"
+                android:paddingTop="100px"
+                android:text="U S E R"
+                android:textColor="#000" />
+        </LinearLayout>
+
+</LinearLayout>

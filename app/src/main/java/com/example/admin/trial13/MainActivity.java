@@ -36,10 +36,10 @@ public class MainActivity extends AppCompatActivity {
     public void btn5(View view) {
         startActivity(new Intent(this,uploadprofile.class));
     }
-    public void btn6(View view) { startActivity(new Intent(this,signup.class));}
+//    public void btn6(View view) { startActivity(new Intent(this,signup.class));}
     public void LOGOUT(View view) {
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(this,login.class));
+        startActivity(new Intent(this,SelectProfileActivity.class));
     }
 
     @Override
