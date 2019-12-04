@@ -8,13 +8,19 @@ import android.view.View;
 
 public class SelectProfileActivity extends AppCompatActivity {
 
-    public void driver(View v) {
-        startActivity(new Intent(this,login.class));
+    public void profile_driver(View v) {
+        startActivity(new Intent(this, Driverlogin.class));
     }
 
-    public void user(View v) {
-        startActivity(new Intent(this,MainActivity.class));
+    public void profile_user(View v) {
+        startActivity(new Intent(this,UserDashBoard.class));
     }
+
+    public void profile_admin(View v) {
+        startActivity(new Intent(this,Adminlogin.class));
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

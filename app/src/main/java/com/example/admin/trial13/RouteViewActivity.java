@@ -15,37 +15,39 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class addroute extends AppCompatActivity {
+public class RouteViewActivity extends AppCompatActivity {
 
-    Spinner spin1;
-    DatabaseReference databaseReference;
-    ValueEventListener listener;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> spindata;
+    Spinner spinv,spinv2;
+    DatabaseReference databaseReference,myref;
+    ValueEventListener listener,listener2;
+    ArrayAdapter<String> adapter,ada2;
+    ArrayList<String> spinvdata,spinv2data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addroute);
-        spin1=findViewById(R.id.xmlspin1);
-        databaseReference= FirebaseDatabase.getInstance().getReference("stops");
-        spindata=new ArrayList<String>();
+        setContentView(R.layout.activity_route_view);
+        spinv=findViewById(R.id.xmlspinview);
+        databaseReference= FirebaseDatabase.getInstance().getReference("routes");
+        spinvdata=new ArrayList<String>();
+        spinv2data=new ArrayList<String>();
         adapter=new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item,spindata);
-        spin1.setAdapter(adapter);
-        retrievedata();
-
+                android.R.layout.simple_spinner_dropdown_item,spinvdata);
+        spinv.setAdapter(adapter);
+        retrieveviewdata();
+//        ada2=new ArrayAdapter<String>(this,
+//                android.R.layout.simple_spinner_dropdown_item,spinvdata);
+//        spinv2.setAdapter(ada2);
+        //itemclick();
     }
 
-    public void retrievedata()
-    {
-        spindata.clear();
-        //adapter.notifyDataSetChanged();
+    private void retrieveviewdata() {
+        spinvdata.clear();
         listener=databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item:dataSnapshot.getChildren())
                 {
-                    spindata.add(item.getValue().toString());
+                    spinvdata.add(item.getKey().toString());
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -54,6 +56,7 @@ public class addroute extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
-    }
-}
+        //  itemclick();
+    }}

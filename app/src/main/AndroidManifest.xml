@@ -8,6 +8,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -17,13 +18,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".RouteViewActivity"></activity>
+        <activity android:name=".ShareActivity" />
+        <activity android:name=".DriverDashBoard" />
+        <activity android:name=".AdminDashBoard" />
+        <activity android:name=".UserDashBoard" />
+        <activity android:name=".SOS" />
+        <activity android:name=".signup" />
+        <activity android:name=".Adminlogin" />
+        <activity android:name=".Driverlogin" />
+        <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".SelectProfileActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".login" />
-        <activity android:name=".addroute" />
+        <activity android:name=".RouteDirectory" />
         <activity android:name=".uploadprofile" />
-        <activity android:name=".addStops" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,6 +55,9 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".RetrieveMapActivity"
+            android:label="Map" />
+        <activity
+            android:name=".addStops"
             android:label="Map" />
     </application>
 

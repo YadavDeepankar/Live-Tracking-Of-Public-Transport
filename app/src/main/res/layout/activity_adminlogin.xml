@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login"
+    tools:context=".Adminlogin"
     android:padding="25dp">
 
     <ImageView
@@ -25,7 +25,7 @@
             android:layout_marginRight="20dp"
             android:hint="username"
             android:inputType="textEmailAddress"
-            android:id="@+id/xmllemail"
+            android:id="@+id/admin_mail"
             />
     <EditText
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
         android:layout_marginRight="20dp"
         android:hint="password"
         android:inputType="textPassword"
-        android:id="@+id/xmllpass"
+        android:id="@+id/admin_pwd"
         />
     <Button
         android:layout_width="match_parent"
@@ -43,8 +43,10 @@
         android:text="login"
         android:textColor="#ffffff"
         android:textSize="22sp"
-        android:id="@+id/xmllbtn"
+        android:id="@+id/admin_button"
         android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/btn_rnd"/>
 
 
@@ -52,9 +54,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_gravity="left"
         android:text="Forgot Password ?"
-        android:onClick="forgotpwd"
+        android:onClick="admin_forgotpwd"
         android:textStyle="bold"
         android:textSize="18dp"
         />

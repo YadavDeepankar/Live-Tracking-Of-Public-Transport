@@ -28,7 +28,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            toolbar.setTitle("Forgot Password");
 
             setContentView(R.layout.activity_forgot_password);
             UserMail = (EditText) findViewById(R.id.EnterEmail);

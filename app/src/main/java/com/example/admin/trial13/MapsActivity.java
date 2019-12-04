@@ -11,6 +11,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -55,6 +57,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private long FASTEST_INTERVAL = 500;
     private LocationManager locationManager;
     private LatLng latLng;
+    EditText jrtno;
     private boolean isPermission;
 
 
@@ -62,7 +65,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        jrtno=findViewById(R.id.rtno);
         if(requestSinglePermission()){
 
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -282,5 +285,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mGoogleApiClient.disconnect();
         }
 
+    }
+
+    public void btnstart(View view) {
+        String rtnum = jrtno.getText().toString().trim();
+        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Toast.makeText(this, ""+rtnum+" email "+user, Toast.LENGTH_SHORT).show();
+        FirebaseDatabase.getInstance().getReference("Users").child(user).child("routeno").setValue(rtnum);
     }
 }

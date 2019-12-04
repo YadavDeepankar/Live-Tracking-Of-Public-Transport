@@ -4,45 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="100px"
+    android:paddingRight="200px"
+    android:paddingLeft="200px"
+    android:paddingBottom="100px"
     tools:context=".SelectProfileActivity">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="250px"
-            android:paddingRight="200px"
-            android:paddingLeft="200px"
-            android:paddingBottom="100px">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="437dp"
-                android:layout_gravity="top"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_driver"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_weight="1">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ic_driver"
+                    android:drawablePadding="20dp"
+                    android:gravity="center"
+                    android:onClick="profile_driver"
+                    android:text="D R I V E R"
+                    android:textColor="#000" />
 
-                android:onClick="driver"
-                android:paddingTop="50px"
-                android:paddingBottom="50px"
-                android:text="D R I V E R"
-                android:textColor="#000" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="437dp"
-                android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_user"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp">
 
-                android:gravity="center"
-                android:onClick="user"
-                android:paddingTop="100px"
-                android:text="U S E R"
-                android:textColor="#000" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_user"
+                    android:drawablePadding="20dp"
+                    android:gravity="center"
+                    android:onClick="profile_user"
+                    android:text="U S E R"
+                    android:textColor="#000" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:drawableTop="@drawable/ic_admin"
+                    android:drawablePadding="20dp"
+                    android:gravity="center"
+                    android:onClick="profile_admin"
+                    android:text="A D M I N"
+                    android:textColor="#000" />
+
+            </LinearLayout>
+
 
 </LinearLayout>

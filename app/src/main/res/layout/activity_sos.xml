@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".SOS">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:gravity="top">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_ambulance"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="sos_ambulance"
+            android:paddingTop="50px"
+            android:paddingBottom="50px"
+            android:textAlignment="center"
+            android:text="AMBULANCE"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_policeman"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="sos_police"
+            android:paddingTop="50px"
+            android:paddingBottom="50px"
+            android:text="POLICE"
+            android:textColor="#000" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:gravity="top">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_firebrigade"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="sos_fire"
+            android:paddingTop="50px"
+            android:paddingBottom="50px"
+            android:textAlignment="center"
+            android:text="FIRE BRIGADE"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_womenhelp"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="sos_helpline"
+            android:paddingTop="50px"
+            android:paddingBottom="50px"
+            android:text="WOMEN HELPLINE"
+            android:textColor="#000" />
+    </LinearLayout>
+
+</LinearLayout>

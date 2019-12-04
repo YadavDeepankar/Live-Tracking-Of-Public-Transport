@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="100dp"
+    android:paddingBottom="100dp"
+    android:gravity="center"
+    tools:context=".UserDashBoard">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_map"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="u_locate"
+            android:text="LOCATE"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_viewroute"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="u_viewroute"
+            android:text="VIEW ROUTE"
+            android:textColor="#000" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:paddingBottom="20dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_share"
+        android:drawablePadding="30dp"
+        android:gravity="center"
+        android:onClick="u_share"
+        android:text="SHARE LOCATION"
+        android:textColor="#000" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_sos"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="u_sos"
+            android:text="S O S"
+            android:textColor="#000" />
+
+    </LinearLayout>
+
+</LinearLayout>

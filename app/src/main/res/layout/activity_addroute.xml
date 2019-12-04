@@ -4,14 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addroute"
     android:orientation="vertical">
 
-    <Spinner
-        android:layout_marginTop="100dp"
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_marginTop="50dp"
+        android:hint="Route number"
+        android:id="@+id/xmlrtno"/>
+
+    <Spinner
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:id="@+id/xmlspin1"
+        android:isScrollContainer="true"
+        android:textAlignment="center"
+        />
+    <Button
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="add route"
+        android:textSize="25dp"
+        android:background="@drawable/btn_rnd"
+        android:onClick="addstoptoroute"
+        />
+    <ListView
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:id="@+id/rtlist"
         />
 
 </LinearLayout>

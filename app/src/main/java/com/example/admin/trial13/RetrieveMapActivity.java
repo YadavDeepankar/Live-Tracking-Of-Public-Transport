@@ -60,7 +60,7 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
     int PERMISSION_ID = 44;
     ValueEventListener listener;
     ArrayAdapter<String> adapter;
-    public ArrayList<String> Userids;
+  //  public ArrayList<String> Userids;
     FusedLocationProviderClient mFusedLocationClient;
 
     @Override
@@ -72,7 +72,8 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
+//        Userids.add("cZGJYE8lHHgxsoS1gieJFZhwQZn2");
+//        Userids.add("hiyyLelJ7LZOi11oquojcDvnpng2");
     }
 
     /**
@@ -90,8 +91,8 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        String user = FirebaseAuth.getInstance().getUid();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user).child("Location");
+        //String user = FirebaseAuth.getInstance().getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("hiyyLelJ7LZOi11oquojcDvnpng2").child("Location");
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -102,7 +103,7 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
                 LatLng location = new LatLng(latitude,longitude);
                 Toast.makeText(RetrieveMapActivity.this, "your current location is :"+latitude+" and "+longitude, Toast.LENGTH_SHORT).show();
 //                mMap.addMarker(new MarkerOptions().position(location).title(getCOmpleteAddress(latitude,longitude)));
-                mMap.addMarker(new MarkerOptions().position(location).title("ANVT-GZB").icon(BitmapDescriptorFactory.fromResource(R.drawable.index)));
+                mMap.addMarker(new MarkerOptions().position(location).title("hiyyLelJ7LZOi11oquojcDvnpng2").icon(BitmapDescriptorFactory.fromResource(R.drawable.index)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,14F));
             }
 
@@ -111,5 +112,26 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
 
             }
         });
+
+
+//        listener = FirebaseDatabase.getInstance().getReference("Users").child("hiyyLelJ7LZOi11oquojcDvnpng2").child("Location").addValueEventListener(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                //mMap.clear();
+//                Double latitude = dataSnapshot.child("latitude").getValue(Double.class);
+//                Double longitude = dataSnapshot.child("longitude").getValue(Double.class);
+//                LatLng location = new LatLng(latitude,longitude);
+//                Toast.makeText(RetrieveMapActivity.this, "your current location is :"+latitude+" and "+longitude, Toast.LENGTH_SHORT).show();
+////                mMap.addMarker(new MarkerOptions().position(location).title(getCOmpleteAddress(latitude,longitude)));
+//                mMap.addMarker(new MarkerOptions().position(location).title("hiyyLelJ7LZOi11oquojcDvnpng2").icon(BitmapDescriptorFactory.fromResource(R.drawable.index)));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,14F));
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 }

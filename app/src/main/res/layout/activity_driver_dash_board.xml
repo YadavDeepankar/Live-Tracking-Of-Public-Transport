@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".DriverDashBoard">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_broadcast"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="broadcast"
+            android:paddingTop="50px"
+            android:paddingBottom="50px"
+            android:text="BROADCAST"
+            android:textColor="#000" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_sos"
+            android:drawablePadding="30dp"
+            android:gravity="center"
+            android:onClick="sos"
+            android:paddingTop="50px"
+            android:paddingBottom="50px"
+            android:text="S O S"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginLeft="70dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_logout"
+            android:gravity="center"
+            android:onClick="LOGOUT"
+            android:text="LOGOUT"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+</LinearLayout>
