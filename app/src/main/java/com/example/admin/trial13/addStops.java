@@ -3,9 +3,15 @@ package com.example.admin.trial13;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+
+import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.admin.trial13.LocationHelper;
+import com.example.admin.trial13.R;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -38,26 +44,6 @@ import com.google.android.gms.location.LocationRequest;
 import java.io.IOException;
 import java.util.List;
 
-/*
-public class addStops extends AppCompatActivity {
-
-    EditText laystopname,laystoplat,laystoplng;
-    String stname;
-    Double stlat,stlng;
-    DatabaseReference databaseReference;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_stops);
-        laystopname = (EditText) findViewById(R.id.stopname);
-        laystoplat = (EditText) findViewById(R.id.stoplat);
-        laystoplng = (EditText) findViewById(R.id.stoplng);
-
-        databaseReference= FirebaseDatabase.getInstance().getReference("stops");
-    }
-}
-*/
-
 public class addStops extends FragmentActivity implements OnMapReadyCallback,
         LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -84,7 +70,6 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -97,8 +82,8 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
-
     }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -109,7 +94,6 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onConnected(Bundle bundle) {
-
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
@@ -119,7 +103,6 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
-
     }
 
     @Override
@@ -129,7 +112,6 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
-
         mLastLocation = location;
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
@@ -150,7 +132,6 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
-
     }
 
     @Override
@@ -167,19 +148,25 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
             Geocoder geocoder = new Geocoder(this);
             try {
                 addressList = geocoder.getFromLocationName(location, 1);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
             Address address = addressList.get(0);
+            mMap.clear();
+
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             mMap.addMarker(new MarkerOptions().position(latLng).title(location).draggable(true));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+            mMap.addCircle(new CircleOptions().center(latLng).radius(1000).strokeWidth(5).clickable(false).visible(true));
             mkloc=new LatLng(address.getLatitude(),address.getLongitude());
             Toast.makeText(getApplicationContext(),mkloc.latitude+" "+mkloc.longitude,Toast.LENGTH_LONG).show();
         }
+        else{
+            Toast.makeText(this, "location does not exists", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(addStops.this,addStops.class));
+        }
     }
-
 
     public void addtofirebase(View v) {
 
@@ -211,6 +198,7 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 locationSearch.setText("");
+                mMap.clear();
                 Toast.makeText(addStops.this, "stop "+stname+" inserted ", Toast.LENGTH_SHORT).show();
             }
         });

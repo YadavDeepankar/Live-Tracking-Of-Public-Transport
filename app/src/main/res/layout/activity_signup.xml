@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".signup"
     android:padding="25dp">
 
     <ProgressBar
@@ -15,16 +16,16 @@
         />
 
     <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:hint="fullname"
-            android:textSize="18sp"
-            android:id="@+id/xmlrname"
-            android:inputType="text"
-            android:layout_marginTop="100dp"
-            />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="FULL NAME"
+        android:textSize="18sp"
+        android:id="@+id/xmlrname"
+        android:inputType="text"
+        android:layout_marginTop="100dp"
+        />
 
 
     <EditText
@@ -34,11 +35,23 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:hint="username/emailid"
+        android:hint="EMAIL ADDRESS"
         android:id="@+id/xmlremail"
         android:inputType="textEmailAddress"
         />
 
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:hint="Phone Number"
+        android:id="@+id/xmlrph"
+        android:inputType="phone"
+        />
 
     <EditText
         android:layout_width="match_parent"
@@ -65,6 +78,17 @@
         android:id="@+id/xmlrcpass"
         />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:hint="BUS NUMBER"
+        android:inputType="text"
+        android:id="@+id/xmlrbus"
+        />
 
     <Button
         android:layout_width="match_parent"

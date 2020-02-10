@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.admin.trial13.LocationHelper;
+import com.example.admin.trial13.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -28,7 +30,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -40,7 +41,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -152,25 +152,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return isPermission;
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         if(latLng!=null){
-
             mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Current Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,14F));
-
         }
     }
 
@@ -184,6 +171,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
         startLocationUpdates();
         mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
@@ -242,7 +230,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        FirebaseDatabase.getInstance().getReference("Users").child(user).child("Location")
+        FirebaseDatabase.getInstance().getReference("Driver").child(user).child("Location")
                 .setValue(helper).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -291,6 +279,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String rtnum = jrtno.getText().toString().trim();
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Toast.makeText(this, ""+rtnum+" email "+user, Toast.LENGTH_SHORT).show();
-        FirebaseDatabase.getInstance().getReference("Users").child(user).child("routeno").setValue(rtnum);
+        FirebaseDatabase.getInstance().getReference("Driver").child(user).child("routeno").setValue(rtnum);
     }
 }

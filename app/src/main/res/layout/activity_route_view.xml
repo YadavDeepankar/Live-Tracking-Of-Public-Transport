@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RouteViewActivity"
+    android:padding="10dp"
     android:orientation="vertical">
 
     <Spinner
@@ -12,8 +13,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="45dp"
+        android:background="@drawable/border1"
         android:id="@+id/xmlspinview"
         android:isScrollContainer="true"
         android:textAlignment="center"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="STOPS"
+        android:textSize="25dp"
+        android:textColor="#ff0000"
+        android:gravity="center"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:isScrollContainer="true"
+        android:id="@+id/LVRT"
         />
 </LinearLayout>
