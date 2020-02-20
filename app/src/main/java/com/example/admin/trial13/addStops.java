@@ -60,7 +60,6 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stops);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -116,19 +115,15 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
-        //Place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
-
-        //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
-        //stop location updates
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
@@ -160,7 +155,7 @@ public class addStops extends FragmentActivity implements OnMapReadyCallback,
             mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
             mMap.addCircle(new CircleOptions().center(latLng).radius(1000).strokeWidth(5).clickable(false).visible(true));
             mkloc=new LatLng(address.getLatitude(),address.getLongitude());
-            Toast.makeText(getApplicationContext(),mkloc.latitude+" "+mkloc.longitude,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),locationSearch +"\n"+mkloc.latitude+" "+mkloc.longitude,Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(this, "location does not exists", Toast.LENGTH_LONG).show();

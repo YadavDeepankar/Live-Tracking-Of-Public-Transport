@@ -5,10 +5,16 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,6 +35,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.single.PermissionListener;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,9 +52,10 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
     GoogleApiClient mGoogleApiClient;
     FirebaseDatabase database;
     DatabaseReference userLocationsRef;
-
-
-
+    private boolean isPermission;
+    private LocationManager locationManager;
+    private LocationManager mLocationManager;
+    LatLng cloc;
     Map<String, Marker> mNamedMarkers = new HashMap<String,Marker>();
 
     ChildEventListener markerUpdateListener = new ChildEventListener() {
@@ -145,17 +159,121 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrieve_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if(requestSinglePermission()){
+
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+
+            mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+            checkLocation();
+        }
+    }
+
+    private boolean checkLocation() {
+
+        if(!isLocationEnabled()){
+            showAlert();
+        }
+        return isLocationEnabled();
+
+    }
+
+    private boolean isLocationEnabled() {
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private boolean requestSinglePermission() {
+
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        isPermission = true;
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        // check for permanent denial of permission
+                        if (response.isPermanentlyDenied()) {
+                            isPermission = false;
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(com.karumi.dexter.listener.PermissionRequest permission, PermissionToken token) {
+
+                    }
+
+
+                }).check();
+
+        return isPermission;
+    }
+
+    private void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Enable Location")
+                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                        "use this app")
+                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        finish();
+                    }
+                });
+        dialog.show();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                float[] result = new float[3];
+                double distance;
+                //speed in meter/sec
+                double speedd=11.11;
+                double timme;
+                Location.distanceBetween(cloc.latitude, cloc.longitude,
+                        marker.getPosition().latitude,marker.getPosition().longitude, result);
+                distance=(double)result[0];
+                distance=distance+(distance*0.25);
+                timme=(distance/speedd);
+                final AlertDialog.Builder builder=new AlertDialog.Builder(RetrieveMapActivity.this);
+                builder.setTitle(marker.getTitle());
+                builder.setMessage("Distance = "+convertTokm(distance)+"\n\n"+
+                        "Duration is "+convertTohhmm(timme)+" (Approx)");
+                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {dialog.dismiss();}
+                });
+                builder.create().show();
+                return false;
+            }
+        });
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -168,12 +286,29 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
-
         database = FirebaseDatabase.getInstance();
-        userLocationsRef = database.getReference("Users");
-
+        userLocationsRef = database.getReference("Driver");
+    //    Query query=userLocationsRef.orderByChild("routeno").equalTo("rt45");
+     //   query.addChildEventListener(markerUpdateListener);
         userLocationsRef.addChildEventListener(markerUpdateListener);
 
+    }
+
+    public String convertTohhmm(double timme) {
+        int dd,hh,mm,ss;
+        dd= (int) (timme/84600);
+        timme=timme-(84600*dd);
+        hh=(int) (timme/3600);
+        timme=timme-(3600*hh);
+        mm=(int) (timme/60);
+        ss= (int) (timme%60);
+        return dd+" Days, "+hh+" Hours, "+mm+" Min, "+ss+" Sec";
+    }
+
+    public String convertTokm(double distance) {
+        int km= (int) (distance/1000);
+        int mtrs= (int) (distance%1000);
+        return km+" km and "+mtrs+" m.";
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -184,12 +319,10 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
         mGoogleApiClient.connect();
     }
 
-
-
     private MarkerOptions getMarkerOptions(String key) {
 
         // TODO: Read data from database for the given marker (e.g. Name, Driver, Vehicle type)
-        return new MarkerOptions().title(key).snippet(key).icon(BitmapDescriptorFactory.fromResource(R.drawable.bus));
+        return new MarkerOptions().title(key).icon(BitmapDescriptorFactory.fromResource(R.drawable.bus));
     }
 
     @Override
@@ -220,12 +353,14 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
     public void onLocationChanged(Location location) {
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        cloc=latLng;
+
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
+        markerOptions.position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         markerOptions.title("Current Position");
-               //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16F));
 
         //stop location updates
         if (mGoogleApiClient != null) {

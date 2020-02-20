@@ -14,9 +14,6 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.admin.trial13.LocationHelper;
-import com.example.admin.trial13.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -110,7 +107,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-
+                        finish();
                     }
                 });
         dialog.show();
@@ -216,13 +213,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
-
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
-
         LocationHelper helper = new LocationHelper(
                 location.getLongitude(),
                 location.getLatitude()
@@ -278,7 +268,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void btnstart(View view) {
         String rtnum = jrtno.getText().toString().trim();
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Toast.makeText(this, ""+rtnum+" email "+user, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Route number : "+rtnum, Toast.LENGTH_SHORT).show();
         FirebaseDatabase.getInstance().getReference("Driver").child(user).child("routeno").setValue(rtnum);
     }
 }
