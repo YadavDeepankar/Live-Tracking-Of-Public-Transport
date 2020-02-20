@@ -18,7 +18,7 @@ public class UserDashBoard extends AppCompatActivity {
         startActivity(new Intent(this,RetrieveMapActivity.class));
     }
     public void u_viewroute(View v) {
-        startActivity(new Intent(this, RouteDirectory.class));
+        startActivity(new Intent(this, RouteViewActivity.class));
     }
     public void u_share(View v) {
         startActivity(new Intent(this,ShareActivity.class));

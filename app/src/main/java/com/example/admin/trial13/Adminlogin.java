@@ -25,18 +25,7 @@ public class Adminlogin extends AppCompatActivity {
     private FirebaseAuth Auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // User is signed in
-            Intent i = new Intent(Adminlogin.this, AdminDashBoard.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-        } else {
-            // User is signed out
-            Log.d(TAG, "onAuthStateChanged:signed_out");
-        }
-
+        Auth=FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adminlogin);
         admin_email=findViewById(R.id.admin_mail);
@@ -64,29 +53,45 @@ public class Adminlogin extends AppCompatActivity {
                     Toast.makeText(Adminlogin.this, "password length should be more than 6", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!email.equals("tracker.exclusive@gmail.com")||!email.equals("admin@admin.com")){
+                if (checkmail(email)){
+                    Auth.signInWithEmailAndPassword(email, pass)
+                            .addOnCompleteListener(Adminlogin.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        startActivity(new Intent(getApplicationContext(),AdminDashBoard.class));
+                                        Toast.makeText(Adminlogin.this, "Admin Login success", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(Adminlogin.this, "Admin Login failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+                else
+                {
                     Toast.makeText(Adminlogin.this, "You are not ADMIN !!!", Toast.LENGTH_SHORT).show();
                     admin_email.setText("");
                     admin_pass.setText("");
-                    startActivity(new Intent(Adminlogin.this,Adminlogin.class));
+                    onRestart();
                 }
-
-                Auth.signInWithEmailAndPassword(email, pass)
-                        .addOnCompleteListener(Adminlogin.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    startActivity(new Intent(getApplicationContext(),AdminDashBoard.class));
-                                    Toast.makeText(Adminlogin.this, "Admin Login success", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(Adminlogin.this, "Admin Login failed", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
             }
         });
     }
+
+    private boolean checkmail(String email) {
+        switch (email){
+            case "admin@admin.com": return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        startActivity(new Intent(Adminlogin.this,Adminlogin.class));
+        finish();
+    }
+
     public void admin_forgotpwd(View v) {
         startActivity(new Intent(this,ForgotPasswordActivity.class));
     }

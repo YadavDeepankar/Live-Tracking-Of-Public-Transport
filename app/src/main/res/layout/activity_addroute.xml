@@ -6,41 +6,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <EditText
-        android:layout_width="match_parent"
+        android:id="@+id/xmlrtno"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:hint="Route number"
-        android:id="@+id/xmlrtno"/>
+        android:textSize="25dp" />
 
     <Spinner
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="45dp"
         android:id="@+id/xmlspin1"
-        android:isScrollContainer="true"
-        android:textAlignment="center"
-        />
-    <Button
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:isScrollContainer="true"
+        android:minHeight="45dp"
+        android:textAlignment="center" />
+
+
+
+
+
+
+    <Button
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:text="add route"
+        android:textColor="#ffffff"
         android:textSize="25dp"
         android:background="@drawable/btn_rnd"
         android:onClick="addstoptoroute"
         />
+
     <ListView
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:isScrollContainer="true"
         android:id="@+id/rtlist"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:isScrollContainer="true" />
 
 </LinearLayout>
