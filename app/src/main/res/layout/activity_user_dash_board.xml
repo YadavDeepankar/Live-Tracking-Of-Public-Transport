@@ -55,7 +55,7 @@
         android:drawablePadding="30dp"
         android:gravity="center"
         android:onClick="u_share"
-        android:text="SHARE LOCATION"
+        android:text="TUTORIAL"
         android:textColor="#000" />
         <TextView
             android:layout_width="match_parent"

@@ -233,10 +233,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+        FirebaseDatabase.getInstance().getReference("DriverAvail").child(user).child("Location")
+                .setValue(helper).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
 
-
-
-
+                if(task.isSuccessful()){
+                    Toast.makeText(MapsActivity.this, "Location Saved", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MapsActivity.this, "Location Not Saved", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -269,6 +278,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         String rtnum = jrtno.getText().toString().trim();
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Toast.makeText(this, "Route number : "+rtnum, Toast.LENGTH_SHORT).show();
-        FirebaseDatabase.getInstance().getReference("Driver").child(user).child("routeno").setValue(rtnum);
+        FirebaseDatabase.getInstance().getReference("DriverAvail").child(user).child("routeno").setValue(rtnum);
     }
 }

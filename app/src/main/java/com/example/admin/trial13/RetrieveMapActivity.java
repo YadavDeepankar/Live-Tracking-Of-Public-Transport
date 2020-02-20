@@ -247,7 +247,6 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mMap = googleMap;
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -287,10 +286,13 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
             mMap.setMyLocationEnabled(true);
         }
         database = FirebaseDatabase.getInstance();
-        userLocationsRef = database.getReference("Driver");
+        userLocationsRef = database.getReference("DriverAvail");
     //    Query query=userLocationsRef.orderByChild("routeno").equalTo("rt45");
      //   query.addChildEventListener(markerUpdateListener);
         userLocationsRef.addChildEventListener(markerUpdateListener);
+        if (mNamedMarkers.size()==0){
+            Toast.makeText(this, "NO BUSES ARE AVAILABLE AT THIS MOMENT, CHECK BACK AFTER SOME TIME", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverDashBoard extends AppCompatActivity {
 
@@ -24,8 +25,12 @@ public class DriverDashBoard extends AppCompatActivity {
     }
     public void LOGOUT(View v) {
 
+        FirebaseDatabase.getInstance().getReference("DriverAvail").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Location").removeValue();
+        FirebaseDatabase.getInstance().getReference("DriverAvail").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("routeno").removeValue();
+
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this,SelectProfileActivity.class));
+
     }
 
     @Override
