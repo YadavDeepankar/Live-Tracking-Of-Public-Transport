@@ -36,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -108,6 +109,7 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
             Marker marker = mNamedMarkers.get(key);
 
             if (marker == null) {
+
                 // This null-handling section should never be called in this listener's normal use, but is here to handle edge cases quietly.
 //                Log.d(TAG, "Expected existing marker for '" + key + "', but one was not found. Added now.");
                 MarkerOptions options = getMarkerOptions(key); // TODO: Read data from database for this marker (e.g. Name, Driver, Vehicle type)
@@ -251,6 +253,7 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+
                 float[] result = new float[3];
                 double distance;
                 //speed in meter/sec
@@ -285,14 +288,35 @@ public class RetrieveMapActivity extends FragmentActivity implements OnMapReadyC
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+
+
         database = FirebaseDatabase.getInstance();
         userLocationsRef = database.getReference("DriverAvail");
-    //    Query query=userLocationsRef.orderByChild("routeno").equalTo("rt45");
+
+
+
+        DatabaseReference root =FirebaseDatabase.getInstance().getReference();
+        root.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild("DriverAvail")) {
+                    userLocationsRef.addChildEventListener(markerUpdateListener);
+                }
+                else{
+                    Toast.makeText(com.example.admin.trial13.RetrieveMapActivity.this,"NO BUS AVAILABLE AT THIS MOMENT, TRY AFTER SOME TIME",Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(com.example.admin.trial13.RetrieveMapActivity.this,"NO BUS AVAILABLE AT THIS MOMENT, TRY AFTER SOME TIME",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        //    Query query=userLocationsRef.orderByChild("routeno").equalTo("rt45");
      //   query.addChildEventListener(markerUpdateListener);
-        userLocationsRef.addChildEventListener(markerUpdateListener);
-        if (mNamedMarkers.size()==0){
-            Toast.makeText(this, "NO BUSES ARE AVAILABLE AT THIS MOMENT, CHECK BACK AFTER SOME TIME", Toast.LENGTH_SHORT).show();
-        }
+
 
     }
 

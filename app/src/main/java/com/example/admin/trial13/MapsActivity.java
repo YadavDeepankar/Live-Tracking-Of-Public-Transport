@@ -12,7 +12,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,7 +31,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -39,8 +47,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import java.util.ArrayList;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
+        View.OnClickListener,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener{
 
@@ -49,12 +60,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Location mLocation;
     private LocationManager mLocationManager;
     private LocationRequest mLocationRequest;
-    private com.google.android.gms.location.LocationListener listener;
+    private ValueEventListener listener;
     private long UPDATE_INTERVAL = 200;
     private long FASTEST_INTERVAL = 500;
     private LocationManager locationManager;
     private LatLng latLng;
-    EditText jrtno;
+    Spinner spinv;
+    String items,user;
+    DatabaseReference databaseReference;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> spinvdata;
     private boolean isPermission;
 
 
@@ -62,7 +77,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        jrtno=findViewById(R.id.rtno);
+        spinv=findViewById(R.id.seloute);
+        Button start = findViewById(R.id.start);
+        Button stop = findViewById(R.id.stop);
+        databaseReference = FirebaseDatabase.getInstance().getReference("routes");
+        spinvdata=new ArrayList<String>();
+        adapter=new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item,spinvdata);
+        spinv.setAdapter(adapter);
+        retrieveviewdata();
+        spinv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+
+                if (spinv.getSelectedItem().toString()=="Tap to Select Route"){
+                }
+                else
+                {
+                    items=spinv.getSelectedItem().toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
         if(requestSinglePermission()){
 
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -80,6 +124,60 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             checkLocation();
         }
+    }
+
+    private void retrieveviewdata() {
+        spinvdata.clear();
+        spinvdata.add("Tap to Select Route");
+        listener=databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot item:dataSnapshot.getChildren())
+                {
+                    spinvdata.add(item.getKey().toString());
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+    }
+
+    public void ClickMe(String text) {
+
+        user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseDatabase.getInstance().getReference("Driver").child(user).child("Route")
+                .setValue(text).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if(task.isSuccessful()){
+//                    Toast.makeText(MapsActivity.this, "Location Saved", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MapsActivity.this, "Location Not Saved", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        FirebaseDatabase.getInstance().getReference("DriverAvail").child(user).child("Route")
+                .setValue(text).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if(task.isSuccessful()){
+//                    Toast.makeText(MapsActivity.this, "Location Saved", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MapsActivity.this, "Location Not Saved", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private boolean checkLocation() {
@@ -218,7 +316,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 location.getLatitude()
         );
 
-        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        user = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         FirebaseDatabase.getInstance().getReference("Driver").child(user).child("Location")
                 .setValue(helper).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -226,20 +324,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onComplete(@NonNull Task<Void> task) {
 
                 if(task.isSuccessful()){
-                    Toast.makeText(MapsActivity.this, "Location Saved", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MapsActivity.this, "Location Saved", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(MapsActivity.this, "Location Not Saved", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
         FirebaseDatabase.getInstance().getReference("DriverAvail").child(user).child("Location")
                 .setValue(helper).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
                 if(task.isSuccessful()){
-                    Toast.makeText(MapsActivity.this, "Location Saved", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MapsActivity.this, "Location Saved", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(MapsActivity.this, "Location Not Saved", Toast.LENGTH_SHORT).show();
@@ -274,10 +373,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public void btnstart(View view) {
-        String rtnum = jrtno.getText().toString().trim();
-        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Toast.makeText(this, "Route number : "+rtnum, Toast.LENGTH_SHORT).show();
-        FirebaseDatabase.getInstance().getReference("DriverAvail").child(user).child("routeno").setValue(rtnum);
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.start:
+                ClickMe(items);
+                Toast.makeText(MapsActivity.this, "BROADCASTING STARTED", Toast.LENGTH_SHORT).show();
+        }
+
+        switch (v.getId()){
+            case R.id.stop:
+                Toast.makeText(MapsActivity.this, "BROADCASTING STOPPED", Toast.LENGTH_SHORT).show();
+                FirebaseDatabase.getInstance().getReference("DriverAvail").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                startActivity(new Intent(getApplicationContext(),DriverDashBoard.class));
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
     }
 }

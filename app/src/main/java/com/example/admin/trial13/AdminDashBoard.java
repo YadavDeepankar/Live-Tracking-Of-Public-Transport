@@ -31,15 +31,14 @@ public class AdminDashBoard extends AppCompatActivity {
         startActivity(new Intent(this,SelectProfileActivity.class));
     }
 
+    public void a_view1(View view) {
+            startActivity(new Intent(this,RouteViewActivity.class));
+
+    }
 
     @Override
     public void onBackPressed()
     {
-
-    }
-
-    public void a_view1(View view) {
-            startActivity(new Intent(this,RouteViewActivity.class));
 
     }
 }

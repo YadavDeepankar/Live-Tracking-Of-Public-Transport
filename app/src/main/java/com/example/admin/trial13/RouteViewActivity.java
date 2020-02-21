@@ -46,11 +46,8 @@ public class RouteViewActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_dropdown_item,spinvdata);
         spinv.setAdapter(adapter);
         retrieveviewdata();
-
-        ada2=new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,spinv2data);
+        ada2=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,spinv2data);
         ListView.setAdapter(ada2);
-
         spinv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
